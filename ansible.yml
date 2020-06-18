@@ -1,0 +1,37 @@
+- hosts: all
+  tasks:
+  - name: create partition of volume
+    parted:
+        device: /dev/xvdh
+        number: 1
+        state: present
+  - name: format volume
+    filesystem:
+        fstype: ext4
+        dev: /dev/xvdh1
+  - name: mount partition
+    mount:
+        fstype: ext4
+        src: /dev/xvdh1
+        path: /var/www/html
+        state: mounted
+  tasks:
+  - name: apache2
+    package:
+       name: "apache2"
+       state: present
+  - name: git
+    package:
+       name: "git"
+       state: present
+
+  - name: service permanent
+    service:
+       name: "apache2"
+       state: started
+       enabled: yes
+  tasks:
+  - name: Download source code from Github to instance
+    git:
+        repo: https://github.com/pranavv0/web.git
+        dest: /var/www/html/
