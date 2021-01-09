@@ -15,7 +15,6 @@
         src: /dev/xvdh1
         path: /var/www/html
         state: mounted
-  tasks:
   - name: apache2
     package:
        name: "apache2"
@@ -30,7 +29,6 @@
        name: "apache2"
        state: started
        enabled: yes
-  tasks:
   - name: Download source code from Github to instance
     git:
         repo: https://github.com/pranavv0/web.git
